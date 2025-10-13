@@ -1,0 +1,77 @@
+/* css styles */
+html {
+  font-size: 120%; /* or 18px or 1.2em */
+}
+.navbar {
+  background-color: #e0e0e0 !important;  /* light gray background */
+}
+
+.navbar .navbar-brand,
+.navbar .navbar-nav .nav-link {
+  color: #333 !important;  /* darker text for contrast */
+}
+
+.flash-card-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.flash-card {
+  text-decoration: none;
+  color: white;
+}
+
+.flash-card-bg {
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.flash-card-bg:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+}
+
+.overlay-text {
+  font-size: 1.25rem;
+  background-color: transparent;
+  font-family: 'Georgia', serif; 
+  font-weight: bold;
+  color: white;
+  padding: 0;
+  border-radius: 8px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.page-container {
+  max-width: 650px;       /* Adjust width as needed */
+  margin: 0 auto;         /* Centers the container horizontally */
+  padding: 0 15px;        /* Adds some horizontal padding on small screens */
+  box-sizing: border-box; /* Ensure padding doesn't increase width */
+}
+
+/* === Card-specific backgrounds === */
+.flash-card-bg.card1 {
+  background-image: url('img/module1.jpg');
+}
+
+.flash-card-bg.card2 {
+  background-image: url('img/module2.jpg');
+}
+
+.flash-card-bg.card3 {
+  background-image: url('img/module3.jpg');
+}
+
+.flash-card-bg.card4 {
+  background-image: url('img/module4.jpg');
+}

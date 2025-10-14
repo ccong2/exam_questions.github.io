@@ -11,26 +11,23 @@ editor: visual
 ::: instruction
 #### Instructions
 
-All necessary data files for this exam are uploaded to Canvas. Before you begin, take a minute to download and organize your files properly.
+This exam has **4 questions, 10 points each**. All necessary data files for this exam are uploaded to Canvas. You will use Quarto (`.qmd`) document to work on the question. When you finish, please **upload both your `.qmd` and rendered `.html` files** to the **“Midterm Exam” assignment** submission link on Canvas.
 
-Start your work in a Quarto (`.qmd`) document. To ensure that your rendered HTML includes all image outputs, copy and edit the following into your YAML header:
+You have **90 minutes** to complete the exam, and practically: \[Group 1\] 9:35am – 11:05am; \[Group 2\] 11:05pm – 12:35pm.
+
+Start your work in a Quarto document. To ensure that your rendered HTML includes all image outputs, copy and edit the following into your YAML header:
 
 ```{verbatim}
-title: "Exam"
+title: "Exam Answers"
 author: "<Your Name>"
 format: 
   html:
     embed-resources: true
+execute: 
+  warning: false
 ```
 
-Write out all your code for solving the questions, and include a clear statement of your final answer to a question. If you can't complete a section, describe your problem-solving approach instead, i.e. explain what you intended to do and your reasoning.
-
-When you finish, **upload both your `.qmd` and rendered `.html` files** to the **“Midterm Exam” assignment** submission link on Canvas.
-
-You have **90 minutes** to complete the exam, and practically:
-
--   Group 1: 9:35am – 11:05am
--   Group 2: 11:05pm – 12:35pm
+For the questions, please write out all your code you used, and include a clear statement of your final answer to a question. If you didn't complete a section, describe your problem-solving approach instead, i.e. explain what you intended to do and your reasoning.
 :::
 
 ### Question 1: Cleaning and Transforming
@@ -39,16 +36,16 @@ You are provided with a CSV file named `q1_infant_hiv.csv`. It records the estim
 
 The data is formatted as follows:
 
--   The first column contains ISO3 country codes for 192 countries.
+-   The first column contains [ISO3 country codes](https://www.iso.org/iso-3166-country-codes.html) for 192 countries.
 -   For each year from 2009 to 2017 (9 years in total), there are three columns (estimated percentage, lower bound, upper bound)
 -   A dash (`-`) indicates missing data.
 -   The analyst tells us that the value `>95%` means “the data is unreliable”.
 
 Questions:
 
-1.  First, clean the dataset by replacing all the missing and unreliable values with `NA` using R. (10 points).
-2.  After cleaning, How many countries have available estimates (est) for all 9 years from 2009 to 2017? (5 points)
-3.  What is the average percentage for Azerbaijan (AZE) over the 9 years? (5 points)
+1.  First, clean the dataset by finding a way to replace all the missing and unreliable values with NA. (5 points).
+2.  After cleaning, How many countries have available estimates (`est`) for all 9 years from 2009 to 2017? (2.5 points)
+3.  What is the average estimated percentage (`est`) for Azerbaijan (AZE) over the 9 years? (2.5 points)
 
 You can complete these tasks in multiple steps or create intermediate results as needed.
 
@@ -60,16 +57,21 @@ Data source: UNICEF. (2017). [Early Infant Diagnosis](https://data.unicef.org/wp
 
 ### Question 2: Summarizing and Plotting
 
-You are given a Bluebikes ridership dataset `q2_bike_trips.csv`. Each row represents a single trip, including information on start time, end time, start station, and end station. The dataset covers trips taken on September 3, 2025, the first day of our fall semester.
+**Q2.1:** Bluebikes is Metro Boston's public bike share program. You are given a Bluebikes ridership dataset `q2_bike_trips.csv`. Each row represents a single trip, including information on start time, end time, start station, and end station. The dataset covers trips taken on September 3, 2025, the first day of our fall semester.
 
 Your tasks:
 
--   Calculate how many trips occurred within each hour of the day. Use the `lubridate` package, focus on the `start_at` column (5 points).
--   After you have that, create a graph showing the number of trips per hour. (15 points).
+-   Calculate how many trips occurred within each hour of the day. Use the `lubridate` package, focus on the `started_at` column (2 points).
+-   After you have that, create a graph showing the number of trips per hour. (4 points).
 
 Your graph will look similar to the follow example, but [your actual results will be different]{.underline}.
 
 ![](images/q2.png){width="600"}
+
+**Q2.2:** After completing Q2.1, you will have identified the **busiest hour** of the day (the hour with the most starting trips). Following on that:
+
+-   Single out all trips that occurred during this busiest hour. (2 points).
+-   Count the number of trips **starting at each station** during this hour. When you have this result, remove stations with less than 10 trips (2 points).
 
 ::: footnote
 Data source: Bluebikes System Data. (2025). [Bluebikes Comprehensive Trip Histories](https://bluebikes.com/system-data).
@@ -79,24 +81,22 @@ Data source: Bluebikes System Data. (2025). [Bluebikes Comprehensive Trip Histor
 
 ### Question 3 Combining and Mapping
 
-After completing Question 2, you will have identified the **busiest hour** of the day (the hour with the most starting trips). Following on that:
+You are also provided a Bluebike station dataset `q3_bike_stations.xlsx`, which includes station names, ids, locations and total docks at each station.
 
--   Single out all trips that occurred during this busiest hour. (5 points).
--   Count the number of trips starting at each station during this hour, and then remove records for stations with fewer than 10 trips (10 points).
+-   Join your cleaned busiest-hour trip dataset (stations with more than 10 trips) with the station dataset. (2 points)
+-   Use `sf` package, visualize these counts on a map using the stations' geographic locations to place points. (8 points).
+    -   Use `q3_basemap.geojson` as your base map.
+    -   Use point `size` to indicate the number of trips per station.
+    -   Remove any stations without valid location information.
 
-You also have a station dataset `q3_bike_stations.xlsx`, which includes station names, ids, locations and total docks at each station.
-
--   Join the cleaned busiest-hour trip dataset (stations with more than 10 trips) with the station dataset. (10 points)
--   Visualize these counts on a map using the stations’ geographic locations to place points. Use point size to indicate the number of trips per station. Remove any stations without valid location information. Use `q3_basemap.geojson` as your base map. (15 points).
-
-Your maps may look similar to the following example, but [your actual results can be different]{.underline}.
+Your maps may look similar to the following example, but [your actual results can be different]{.underline}. Your theme and color choice may also be different.
 
 ![](images/q3.png){width="700"}
 
 ::: footnote
 Data source:
 
-Bluebikes System Data. (2025). [Bluebikes Comprehensive Trip Histories](https://bluebikes.com/system-data).
+Bluebikes System Data. (2025). [Bluebikes Stations](https://bluebikes.com/system-data).
 
 Analyze Boston. (2025). [Boston neighborhood boundary](https://data.boston.gov/dataset/bpda-neighborhood-boundaries).
 :::
@@ -105,12 +105,12 @@ Analyze Boston. (2025). [Boston neighborhood boundary](https://data.boston.gov/d
 
 ### Question 4: Trouble-shooting
 
-The following code are not running correctly. Can you help identify the issues and fix them?
+The following code are not running correctly. Can you help identify the issues and fix them? Please briefly list the problems you found and provide the corrected version of the code.
 
-1.  You want to get county-level ACS data (2019-2023) for calculating poverty rate in Massachusetts. Suppose `tidycensus` has been correctly loaded and `census_api_key` has been successfully run. (5 points).
+1.  You want to get county-level ACS data (2019-2023) for calculating poverty rate in Massachusetts. Suppose `tidycensus` has been correctly loaded and `census_api_key` has been successfully run. (2.5 points).
 
 ```{verbatim}
-get_acs(
+data <- get_acs(
   state = "MA",
   geography = "county"
   year = 2023,
@@ -118,10 +118,10 @@ get_acs(
 )
 ```
 
-2.  You want to obtain total population data for two counties in Massachusetts at the census block group level, using ACS data from 2019–2023. Suppose `tidycensus` has been correctly loaded and `census_api_key` has been successfully run. (5 points).
+2.  You want to obtain total population data for two counties in Massachusetts at the census block group level, using ACS data from 2019–2023. Suppose `tidycensus` has been correctly loaded and `census_api_key` has been successfully run. (2.5 points).
 
 ```{verbatim}
-get_acs(
+data <- get_acs(
   state = "MA",
   county = c("Middlesex, Norfolk"),
   geography = "blockgroups",
@@ -129,7 +129,7 @@ get_acs(
 )
 ```
 
-3.  The `iris` data is a built-in dataset in R that records measurements of iris flowers, specifically the length and width of sepals and petals, along with their species. You are taking the two columns `Sepal.Length` and `Sepal.Width` to make a simple scatterplot. But the plot does not show. (5 points).
+3.  The `iris` data is a built-in dataset in R that records measurements of iris flowers, specifically the length and width of sepals and petals, along with their species. You are taking the two columns `Sepal.Length` and `Sepal.Width` to make a simple scatterplot. But the plot does not show. (2.5 points).
 
 ```{verbatim}
 iris |> 
@@ -137,14 +137,12 @@ iris |>
   geom_point(color = "red")
 ```
 
-4.  Also in `iris` , you want to select "setosa" species that have a sepal length larger than 5. By looking at the dataset you know the first record satisfies this condition but the result does not show. (5 points).
+4.  Also in `iris` , you want to select "setosa" species that have a sepal length larger than 5. By looking at the dataset you know the first record satisfies this condition but the result does not show. (2.5 points).
 
 ```{verbatim}
-iris |> filter(Sepal.Length > 5 AND Species = setosa)
+iris |> filter(Sepal.Length > 5 AND Species = "setosa")
 ```
 
-<br><br> <br><br> ------------------------------------------------------------------------
-
+<br><br> ------------------------------------------------------------------------
 
 🎉**THIS IS THE END OF THE EXAM** 🎉
-

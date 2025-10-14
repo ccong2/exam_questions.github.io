@@ -11,67 +11,37 @@ html {
   color: #333 !important;  /* darker text for contrast */
 }
 
-.flash-card-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  margin-top: 1.5rem;
+
+/* Instruction block */
+.instruction {
+  font-size: 0.9em;          /* smaller text for content */
+  color: #666666;            /* gray text for instructions */
+  background-color: #f9f9f9; /* light background */
+  padding: 1em 1em;        /* spacing around block */
+  border-left: 3px solid #ccc; /* visual indicator */
+  margin: 1em auto;             /* spacing above and below */
+  border-radius: 5px;        /* slightly rounded corners */
+  max-width: 700px;
 }
 
-.flash-card {
-  text-decoration: none;
-  color: white;
-}
-
-.flash-card-bg {
-  height: 200px;
-  background-size: cover;
-  background-position: center;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  overflow: hidden;
-}
-
-.flash-card-bg:hover {
-  transform: scale(1.03);
-  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-}
-
-.overlay-text {
-  font-size: 1.25rem;
-  background-color: transparent;
-  font-family: 'Georgia', serif; 
+/* Instruction title inside block */
+.instruction h4, 
+.instruction h5, 
+.instruction h6 {
   font-weight: bold;
-  color: white;
-  padding: 0;
-  border-radius: 8px;
-  line-height: 1.4;
-  text-align: center;
+  color: #333333;            /* darker color for heading */
+  margin-top: 0;             /* remove extra space above */
+  margin-bottom: 0.3em;      /* small space after heading */
+  font-size: 1em;            /* same as main text or adjust */
 }
 
-.page-container {
-  max-width: 650px;       /* Adjust width as needed */
-  margin: 0 auto;         /* Centers the container horizontally */
-  padding: 0 15px;        /* Adds some horizontal padding on small screens */
-  box-sizing: border-box; /* Ensure padding doesn't increase width */
+/* Footnote style */
+.footnote {
+  font-size: 0.8em;        /* smaller than main text */
+  color: #666666;          /* gray text */
+  line-height: 1.2em;      /* tight line spacing */
+  display: block;          /* makes it behave like a paragraph */
+  margin-top: 0.5em;       /* spacing above */
+  margin-bottom: 0.5em;    /* spacing below */
 }
 
-/* === Card-specific backgrounds === */
-.flash-card-bg.card1 {
-  background-image: url('img/module1.jpg');
-}
-
-.flash-card-bg.card2 {
-  background-image: url('img/module2.jpg');
-}
-
-.flash-card-bg.card3 {
-  background-image: url('img/module3.jpg');
-}
-
-.flash-card-bg.card4 {
-  background-image: url('img/module4.jpg');
-}

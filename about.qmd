@@ -1,9 +1,176 @@
 ---
-title: "About"
+title: "Exam Answer Key"
+author: "<Your Name>"
+format: 
+  html:
+    embed-resources: true
+execute: 
+  warning: false
 ---
 
-About this site
+```{r}
+#| message: false
+library(tidyverse)
+library(sf)
+library(readxl)
+```
+
+### **Question 1: Cleaning and Transforming**
 
 ```{r}
-1 + 1
+#| message: false
+infant_hiv <- read_csv("data/q1_infant_hiv.csv")
+```
+
+**Q1.1 Replace all irregular values with NA**
+
+Use `pivot_longer` to gather values into one column for easier process.
+
+```{r}
+infant_hiv_cleaned <- 
+  infant_hiv |> 
+  pivot_longer(cols = `2009 est`:`2017 lo`,
+               names_to = "year", values_to = "value") |> 
+  mutate(value = ifelse(value %in% c("-", ">95%"), NA, value))
+```
+
+**Q1.2 Count countries have available estimates (est) for 9 years**
+
+**29** countries have available estimates (`est`) for all 9 years from 2009 to 2017.
+
+```{r}
+infant_hiv_cleaned <- 
+  infant_hiv_cleaned |> 
+  # Filter for non-NA and est values
+  filter(str_detect(year, "est") & !is.na(value)) 
+
+infant_hiv_cleaned |> 
+  # Count estimates by country
+  count(ISO3) |> 
+  filter(n == 9) |> 
+  nrow()
+```
+
+**Q1.3 Average estimate value for AZE**
+
+56.67% for AZE
+
+```{r}
+# Percentages are characters, need to treat % before caculating
+infant_hiv_cleaned |> 
+  filter(ISO3 == "AZE") |>  
+  mutate(pct_value = as.numeric(str_replace(value, "%", ""))) |> 
+  summarise(mean = mean(pct_value))
+```
+
+### **Question 2: Summarizing and Plotting**
+
+```{r}
+#| message: false
+biketrips <- read_csv("data/q2_bike_trips.csv")
+```
+
+**Q2.1 Number of trips per hour**
+
+Busiest hour: 17:00
+
+```{r}
+# Use `hour()` function to extract hours
+biketrips <- 
+  biketrips |> mutate(hour = hour(started_at)) 
+
+# Count to find the busiest hour
+biketrips |> count(hour) |> arrange(desc(n))
+```
+
+```{r}
+biketrips |> 
+  count(hour) |> 
+  ggplot(aes(x = hour, y = n)) +
+  geom_line() +
+  labs(x = "Hour", y = "Number of Trips Started",
+       title = "Bluebike Hourly Trips",
+       subtitle = "September 3, 2025") +
+  theme_minimal() 
+```
+
+**Q2.2 Count trips by station, filter \>10**
+
+```{r}
+trips_17 <- biketrips |> 
+  filter(hour == 17)|> 
+  count(start_station_id) |> 
+  filter(n >= 10)
+```
+
+### **Question 3 Combining and Mapping**
+
+```{r}
+#| message: false
+#| results: hide
+station <- read_xlsx("data/q3_bike_stations.xlsx")
+basemap <- st_read("data/q3_basemap.geojson")
+```
+
+```{r}
+# Join trips by station to the station data
+station_joined <- left_join(trips_17, station, 
+                            by = c("start_station_id" = "Number"))
+```
+
+```{r}
+# Convert station to spatial data
+station_sf <- st_as_sf(station_joined, 
+                       coords = c("Long", "Lat"), crs = 4326)
+```
+
+```{r}
+ggplot() +
+  geom_sf(data = basemap)+
+  geom_sf(data = station_sf, aes(size = n), color = "red", alpha = 0.3)+
+    labs(size = "Trip Count",
+         title = "Bluebike Starting Trip Distribution", subtitle = "Stations with more than 10 trips at the hour xx")+
+  theme_void()
+```
+
+### **Question 4: Trouble-shooting**
+
+**Q4.1** should change `table` to `variables`, add comma after "county"
+
+```{r}
+#| eval: false
+get_acs(
+  state = "MA",
+  geography = "county",
+  year = 2023,
+  variables = c("B17001_002", "B17001_001")
+)
+```
+
+**Q4.2** should give individual quotes to the county names, geography should be "block group"
+
+```{r}
+#| eval: false
+get_acs(
+  state = "MA",
+  county = c("Middlesex", "Norfolk"),
+  geography = "block group",
+  variables = c("B01001_001")
+)
+```
+
+**Q4.3** should put x and y inside `aes()` . should change the 2nd `|>` to `+`.
+
+```{r}
+#| eval: false
+iris |> 
+  ggplot(aes(x = Sepal.Length, y = Sepal.Width)) +
+  geom_point(color = "red")
+```
+
+**Q4.4** should change "AND" to "&", add quotes to "setosa", and use "==".
+
+```{r}
+#| eval: false
+iris |> filter(Sepal.Length > 5 & Species == "setosa")
 ```

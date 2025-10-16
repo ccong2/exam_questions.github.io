@@ -15,14 +15,14 @@ library(sf)
 library(readxl)
 ```
 
-### **Question 1: Cleaning and Transforming**
+## **Question 1: Cleaning and Transforming**
 
 ```{r}
 #| message: false
 infant_hiv <- read_csv("data/q1_infant_hiv.csv")
 ```
 
-**Q1.1 Replace all irregular values with NA**
+### **Q1.1 Replace all irregular values with NA**
 
 Use `pivot_longer` to gather values into one column for easier process.
 
@@ -34,7 +34,7 @@ infant_hiv_cleaned <-
   mutate(value = ifelse(value %in% c("-", ">95%"), NA, value))
 ```
 
-**Q1.2 Count countries have available estimates (est) for 9 years**
+### **Q1.2 Count countries have available estimates (est) for 9 years**
 
 **29** countries have available estimates (`est`) for all 9 years from 2009 to 2017.
 
@@ -51,7 +51,7 @@ infant_hiv_cleaned |>
   nrow()
 ```
 
-**Q1.3 Average estimate value for AZE**
+### **Q1.3 Average estimate value for AZE**
 
 56.67% for AZE
 
@@ -63,14 +63,14 @@ infant_hiv_cleaned |>
   summarise(mean = mean(pct_value))
 ```
 
-### **Question 2: Summarizing and Plotting**
+## **Question 2: Summarizing and Plotting**
 
 ```{r}
 #| message: false
 biketrips <- read_csv("data/q2_bike_trips.csv")
 ```
 
-**Q2.1 Number of trips per hour**
+### **Q2.1 Number of trips per hour**
 
 Busiest hour: 17:00
 
@@ -94,7 +94,7 @@ biketrips |>
   theme_minimal() 
 ```
 
-**Q2.2 Count trips by station, filter \>10**
+### **Q2.2 Count trips by station, filter \>10**
 
 ```{r}
 trips_17 <- biketrips |> 
@@ -103,7 +103,7 @@ trips_17 <- biketrips |>
   filter(n >= 10)
 ```
 
-### **Question 3 Combining and Mapping**
+## **Question 3 Combining and Mapping**
 
 ```{r}
 #| message: false
@@ -133,7 +133,7 @@ ggplot() +
   theme_void()
 ```
 
-### **Question 4: Trouble-shooting**
+## **Question 4: Trouble-shooting**
 
 **Q4.1** should change `table` to `variables`, add comma after "county"
 

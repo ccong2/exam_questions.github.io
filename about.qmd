@@ -147,7 +147,7 @@ get_acs(
 )
 ```
 
-**Q4.2** should give individual quotes to the county names, geography should be "block group"
+**Q4.2** should give individual quotes to the county names, geography should be "block group", add year.
 
 ```{r}
 #| eval: false
@@ -155,6 +155,7 @@ get_acs(
   state = "MA",
   county = c("Middlesex", "Norfolk"),
   geography = "block group",
+  year = 2023,
   variables = c("B01001_001")
 )
 ```
